@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="Encoding">
+    <file url="file://$PROJECT_DIR$/src/main/java/mvc/controller/PageStateInfo.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/mvc/controller/UserPage.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/java/mvc/controller/UserValidator.java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/index.jsp" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/initBase.txt" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/css/createForm.css" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/dataTables/dataTables.russian.lang" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/dataTables/js/userList-DataTables-ini.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/js/createForm.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/src/main/webapp/resources/myTable/js/userList-myTable-ini.js" charset="UTF-8" />
+  </component>
+</project>
