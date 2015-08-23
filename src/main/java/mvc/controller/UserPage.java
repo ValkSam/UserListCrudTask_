@@ -14,6 +14,7 @@ import java.util.List;
 public class UserPage {
     private List<User> pageList;
     private int pagesCount;
+    //для варианта на Angular:
     private boolean needUpdate = false;
 
     public List<User> getPageList() {

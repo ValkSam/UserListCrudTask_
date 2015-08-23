@@ -151,6 +151,29 @@
         </div>
     </div>
 
+    <div class="paragraph">
+        <div class="item row">
+            <div class="col-xs-3">
+                <p class="source">ВАРИАНТ 4</p>
+            </div>
+            <div class="col-xs-6">
+                <p class="title">Пейджинг на стороне сервера frontend AngularJS</p>
+            </div>
+            <div class="col-xs-3">
+                <p class="pubdate"> AngularJS </p>
+            </div>
+        </div>
+        <div class="description row">
+            <div class="col-xs-3">&nbsp;</div>
+            <div class="col-xs-9">
+                <a href="/userList-myTableAngular">
+                    <h1>Перейти к варианту</h1>
+                </a>
+                <p></p>
+            </div>
+        </div>
+    </div>
+
 </div>
 <!--------------------------------------------------------------------------------------------------------------------->
 <!-- jQuery -->
