@@ -32,4 +32,12 @@ public class UserPage {
     public void setPagesCount(int pagesCount) {
         this.pagesCount = pagesCount;
     }
+
+    public boolean isNeedUpdate() {
+        return needUpdate;
+    }
+
+    public void setNeedUpdate(boolean needUpdate) {
+        this.needUpdate = needUpdate;
+    }
 }

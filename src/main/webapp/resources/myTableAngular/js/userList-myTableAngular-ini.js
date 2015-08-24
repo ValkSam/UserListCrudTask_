@@ -26,7 +26,7 @@ userCRUDApp.controller("userCRUDController", function($scope, UserCRUDService){
     $scope.strictFilter = false;
     //
     $scope.getPageList = function() {
-        var state = { //параметры для формирования запроса
+        var state = { //параметры для формирования запроса --- тут недоработка: фильтр будет применяься, если установить условия фильтра и, не нажимая кнопку применить фильтр, двинуться по пагинатору. Продумать, чтобы фильтр применялся только при нажатии кнопки фильтра.
             'pageNumber': $scope.pageNumber,
             'rowsPerPage': 10,
             'pageOffset': $scope.pageOffset,
@@ -39,6 +39,10 @@ userCRUDApp.controller("userCRUDController", function($scope, UserCRUDService){
         var userPage = UserCRUDService.get({rtype: 'page', pState: state}, function(){
             $scope.userList = userPage.pageList; //суем под колбэк, т.к. надо дождаться резолва ответа (полной загрузки с сервера и заполнения данными)
             $scope.pagesCount = userPage.pagesCount;
+            if (userPage.needUpdate) {
+                $scope.pageNumber = 1;
+                $scope.buttonNumber = 1;
+            }
             $scope.setButtons();
         });
         /*
@@ -49,12 +53,24 @@ userCRUDApp.controller("userCRUDController", function($scope, UserCRUDService){
          */
     };
     $scope.getPageList(); //первичная загрузка списка при заходе на страницу
+    $scope.applyFilter = function(){
+        $scope.pageNumber = 1;
+        $scope.buttonNumber = 1;
+        $scope.getPageList();
+    };
     $scope.refreshPageList = function(){
         $scope.filterField = $scope.filterFieldVariants[0];
         $scope.filterFieldValue = "";
         $scope.strictFilter = false;
-        getPageList();
+        $scope.pageNumber = 1;
+        $scope.buttonNumber = 1;
+        $scope.getPageList();
     };
+    $scope.deleteUser = function(id){
+        var userPage = UserCRUDService.delete({rtype: 'delete', id: id}, function(){
+            $scope.getPageList();
+        });
+    }
     //===============================Пагинатор======================================
     $scope.buttonsLimit = 10;
     $scope.buttonNumber = 1;
@@ -62,7 +78,7 @@ userCRUDApp.controller("userCRUDController", function($scope, UserCRUDService){
     $scope.setButtons = function(){
         $scope.buttonOffset = ($scope.buttonNumber+$scope.buttonsLimit-1)%$scope.buttonsLimit;
         $scope.startNumber = $scope.buttonNumber - $scope.buttonOffset;
-        $scope.endNumber = $scope.startNumber +  $scope.buttonsLimit - 1;
+        $scope.endNumber = $scope.startNumber +  Math.min($scope.buttonsLimit, $scope.pagesCount) - 1;
         if ($scope.endNumber>$scope.pagesCount){
             var delta = $scope.endNumber-$scope.pagesCount;
             $scope.endNumber -= delta;

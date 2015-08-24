@@ -26,14 +26,14 @@
     <div id="main-panel" class="panel-group" style="margin-bottom: 100px;">
         <div class="panel panel-default">
             <div class="panel-heading">
-                <form role="form" action='index.jsp' accept-charset='utf-8'>
+                <form action='index.jsp' accept-charset='utf-8'>
                     <button class="btn btn-default">
                         назад
                     </button>
                 </form>
 
                 <div>
-                    <form role="form" action='createForm?source=userList-myTable' accept-charset='utf-8'>
+                    <form action='createForm?source=userList-myTableAngular' method="get">
                         <button id='createForm' class="btn btn-default">
                             Добавить пользователя
                         </button>
@@ -89,9 +89,10 @@
                             <div class="col-xs-2 user-date"><p>{{user.createdDate | date}}</p></div>
                             <!-- чтобы работал ng-if нужна версия 1.1.5+ -->
                             <div class="col-xs-2 user-date"><img ng-if="user.isAdmin" src="resources/images/admin.png"/></div>
-                            <div class="col-xs-1"><a id='update' href='#'><img
-                                    src="resources/images/trash.png"/></a></div>
-                            <div class="col-xs-1"><a id='delete' href='#'><img
+                            <div class="col-xs-1"><a id='update'
+                                                     href='updateForm?id={{user.id}}&source=userList-myTableAngular'><img
+                                    src="resources/images/edit.png"/></a></div>
+                            <div class="col-xs-1"><a id='delete' href='#' ng-click="deleteUser({{user.id}})"><img
                                     src="resources/images/trash.png"/></a></div>
                         </div>
                     </div>
@@ -137,7 +138,7 @@
                             <input type="text" class="form-control" ng-model = "filterFieldValue" placeholder="Search" name="srch-term" id="srch-term">
 
                             <div class="input-group-btn">
-                                <button id=do-search class="btn btn-default" type="button" ng-click = "getPageList()">
+                                <button id=do-search class="btn btn-default" type="button" ng-click = "applyFilter()">
                                     <i
                                             class="glyphicon glyphicon-search">
                                     </i>
@@ -170,7 +171,7 @@
                             </div>
 
                             <div id="btn-less-group" class="btn-group ">
-                                <button class="btn btn-default disabled">
+                                <button class="btn btn-default disabled" ng-hide="startNumber==1">
                                     ...
                                 </button>
                             </div>
@@ -180,7 +181,7 @@
                             </div>
 
                             <div id="btn-more-group" class="btn-group">
-                                <button class="btn btn-default disabled">
+                                <button class="btn btn-default disabled" ng-hide="endNumber==pagesCount">
                                     ...
                                 </button>
                             </div>

@@ -76,30 +76,9 @@ public class UsersController {
         return "userList-myTableAngular";
     }
 
-    @RequestMapping("users/list")
-    @ResponseBody
-    public List<User> users_list(@RequestHeader("Referer") String header,@RequestBody(required = false) String body,@RequestParam(required = false) String pState) {
-        System.out.println(header);
-        System.out.println(body);
-        System.out.println(pState);
-        //
-        boolean needUpdate = false;
-        PageStateInfo pageStateInfo = PageStateInfo.getInstance(pState);
-        UserPage userPage = userService.readPage(pageStateInfo);
-        if ((userPage.getPageList().size() == 0) && (userPage.getPagesCount() > 0)) { //БД уже существенно изменилась
-            pageStateInfo.setPageNumber(1);
-            pageStateInfo.setPageOffset(0);
-            userPage = userService.readPage(pageStateInfo);
-            needUpdate = true; //признак, что состяние пагинатора (индикация текущей страницы) уже не актуально и надо его сбросить
-            //так как возвращаем в модель фактически считанную страницу, то можно, конечно, обойтись без перемонной needUpdate,
-            //а анализировать номер запрошенной и номер полученной страниц
-        }
-        List<User> userList = userPage.getPageList();
-        return userList;
-    }
     @RequestMapping("users/page")
     @ResponseBody
-    public UserPage users_page(@RequestHeader("Referer") String header,@RequestBody(required = false) String body,@RequestParam(required = false) String pState) {
+    public UserPage users_page(@RequestParam(required = false) String pState) {
         try {
             pState = new String(pState.getBytes("ISO-8859-1"),"UTF8");
             //единственный вариант, который подошел. Хрень какая-то. В get-запросе, никак не получается установить кодировку
@@ -113,11 +92,17 @@ public class UsersController {
             pageStateInfo.setPageNumber(1);
             pageStateInfo.setPageOffset(0);
             userPage = userService.readPage(pageStateInfo);
-            needUpdate = true; //признак, что состяние пагинатора (индикация текущей страницы) уже не актуально и надо его сбросить
+            userPage.setNeedUpdate(true); //признак, что состяние пагинатора (индикация текущей страницы) уже не актуально и надо его сбросить
             //так как возвращаем в модель фактически считанную страницу, то можно, конечно, обойтись без перемонной needUpdate,
             //а анализировать номер запрошенной и номер полученной страниц
         }
         return userPage;
+    }
+
+    @RequestMapping("users/delete")
+    @ResponseBody
+    public Integer users_page(@RequestParam(required = false) long id) {
+        return userService.delete(id);
     }
 
     @RequestMapping(value = "userList-myTable")
@@ -171,7 +156,7 @@ public class UsersController {
     }
 
     @RequestMapping("createForm")
-    public ModelAndView createForm(@RequestParam String source, @RequestParam(required = false) String name_err, @RequestParam(required = false) String age_err) {
+    public ModelAndView createForm(@RequestHeader("Referer") String back, @RequestParam(required = false) String source, @RequestParam(required = false) String name_err, @RequestParam(required = false) String age_err) {
         User user = new User();
         user.setName("");
         user.setAge(0);
@@ -179,7 +164,8 @@ public class UsersController {
 
         ModelAndView modelAndView = new ModelAndView("createForm");
         modelAndView.addObject("user", user);
-        modelAndView.addObject("source", source);
+        //modelAndView.addObject("source", source);
+        modelAndView.addObject("source", back); //возвращаемся так
         modelAndView.addObject("name_err", name_err); //сообщения об ошибке
         modelAndView.addObject("age_err", age_err); //сообщения об ошибке
         return modelAndView;
